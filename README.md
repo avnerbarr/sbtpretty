@@ -1,8 +1,6 @@
 # Sbtpretty
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sbtpretty`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Small tool to make the output of `sbt test` a bit more bearable.
 
 ## Installation
 
@@ -22,8 +20,34 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+After you have installed it , from a `sbt` directory you are running tests in do:
 
+`sbt test 2>&1 sbtpretty`
+
+Notice that we are piping the STDERR to the pretty-fier as well so that we can make a nice looking output
+
+
+## Appearance
+
+Your logs should start to look nice like this:
+
+```
+sbt test 2>&1 | sbtpretty
+▸ PaginationSerializationSpec:
+▸ parse empty requests
+▸ parse with null values
+▸ parse with sort request
+....
+....
+....
+....
+▸ Tests: succeeded 8, failed 0, canceled 0, ignored 0, pending 0
+✅   All tests passed.
+ Passed: Total 8, Failed 0, Errors 0, Passed 8
+....
+✅   All tests passed.
+ Passed: Total 73, Failed 0, Errors 0, Passed 73
+```
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -37,7 +61,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Sbtpretty project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/sbtpretty/blob/master/CODE_OF_CONDUCT.md).
