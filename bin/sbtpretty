@@ -7,3 +7,11 @@ printer.print("hello")
 STDIN.each_line do |line|
   printer.print(line)
 end
+
+#http://robdodson.me/how-to-write-a-command-line-ruby-gem/
+#https://blog.faodailtechnology.com/step-by-step-guide-to-publish-your-first-ruby-gem-bae3291aeab4
+# update version.rb with a new number like 0.2.2
+# run this command:
+#   gem build sbtpretty
+# then replace the 0.2.2 with the version you changed and run the command
+#   gem push sbtpretty-0.2.2.gem

@@ -1,5 +1,6 @@
 require "sbtpretty/version"
 require 'colorize'
+require 'open3'
 module Sbtpretty
   class Printer
     :info
@@ -138,15 +139,25 @@ module Sbtpretty
       when :testfailed then line.gsub('[info] ',"#{ERROR}   ").red
       when :alltestspass then line.gsub('[info] ',"#{CHECK}   ").green
       when :runcompleted then "#{SMALL_ARROW.yellow} #{strip_info(line).blue}"
-      when :summaryline then "\t#{strip_info(line).yellow}".underline
+      when :summaryline then "\t#{strip_info(line).yellow}"
       when :totalNumberOfTestsRun then "#{SMALL_ARROW.yellow} #{strip_info(line).blue}"
       when :suites then "#{SMALL_ARROW.yellow} #{strip_info(line).blue}"
       when :summary2 then "#{SMALL_ARROW.yellow} #{strip_info(line).blue}"
-      when :no_tests_were_executed then "#{SMALL_ARROW.yellow} #{strip_info(line)}".bold
+      when :no_tests_were_executed then "#{SMALL_ARROW.yellow} #{strip_info(line)}"
       end
     end
     def print(line)
-      STDOUT.print(format(line,get_type(line)))
+      line = line.chomp
+      line = "echo '#{line}' | sed \"s,$(printf '\\033')\\\\[[0-9;]*[a-zA-Z],,g\" 2> /dev/null"
+      stdin, stdout, stderr, wait_thr = Open3.popen3(line)
+    	val = stdout.gets
+    	stdout.close
+    	stderr.gets(nil)
+    	stderr.close
+      if val == nil
+        val = ""
+      end
+      STDOUT.print(format(val,get_type(val)))
       STDOUT.flush
     end
   end
