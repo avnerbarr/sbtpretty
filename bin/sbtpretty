@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'sbtpretty'
+
+printer = Sbtpretty::Printer.new
+printer.print("hello")
+STDIN.each_line do |line|
+  printer.print(line)
+end
